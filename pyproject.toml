@@ -1,0 +1,29 @@
+# websurf — LLM-guided web crawler/extractor, packaged with a `websurf`
+# console command. Standalone product; install editable with
+# `pip install -e .` (or `uv pip install -e .`) from this directory.
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "websurf"
+version = "0.1.0"
+description = "LLM-guided web crawler/extractor: deterministic fetch + LLM-synthesized extractors."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "requests",
+    "beautifulsoup4",
+    "lxml",
+    "playwright",
+    "platformdirs",
+]
+
+[project.optional-dependencies]
+api = ["anthropic"]   # optional API backend; without it the tool shells out to the `claude` CLI
+
+[project.scripts]
+websurf = "websurf.__main__:main"
+
+[tool.setuptools]
+packages = ["websurf"]

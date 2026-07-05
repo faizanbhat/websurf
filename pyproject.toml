@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "websurf"
-version = "0.1.1"
+version = "0.1.2"
 description = "LLM-guided web crawler/extractor: deterministic fetch + LLM-synthesized extractors."
 readme = "README.md"
 license = "MIT"

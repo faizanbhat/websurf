@@ -2,14 +2,16 @@
 # console command. Standalone product; install editable with
 # `pip install -e .` (or `uv pip install -e .`) from this directory.
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "websurf"
-version = "0.1.0"
+version = "0.1.1"
 description = "LLM-guided web crawler/extractor: deterministic fetch + LLM-synthesized extractors."
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.10"
 dependencies = [
     "requests",
@@ -18,6 +20,11 @@ dependencies = [
     "playwright",
     "platformdirs",
 ]
+
+[project.urls]
+Homepage = "https://github.com/extremeclarity/websurf"
+Repository = "https://github.com/extremeclarity/websurf"
+Issues = "https://github.com/extremeclarity/websurf/issues"
 
 [project.optional-dependencies]
 api = ["anthropic"]   # optional API backend; without it the tool shells out to the `claude` CLI

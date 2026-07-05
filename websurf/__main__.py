@@ -275,6 +275,22 @@ def cmd_prune(args):
     print(f"{cfg.db_path}: {before / 1e6:.1f} MB -> {after / 1e6:.1f} MB")
 
 
+def cmd_install_deps(args):
+    # Install the headless Chromium the render path needs. Runs playwright's
+    # own installer via THIS interpreter, so it works from a pipx/venv install
+    # where the `playwright` command isn't on PATH — websurf is the only entry
+    # point exposed, so this subcommand is how users reach it.
+    import subprocess
+    print("# installing chromium-headless-shell (~190 MB) via playwright...",
+          file=sys.stderr)
+    r = subprocess.run([sys.executable, "-m", "playwright", "install",
+                        "chromium-headless-shell"])
+    if r.returncode == 0:
+        print("# browser installed — JavaScript-rendered pages will now work",
+              file=sys.stderr)
+    raise SystemExit(r.returncode)
+
+
 def main():
     ap = argparse.ArgumentParser(
         prog="websurf", description=__doc__,
@@ -393,6 +409,10 @@ def main():
     p.add_argument("--install", nargs="?", const="", default=None, metavar="DIR",
                    help="write SKILL.md into DIR (default ~/.claude/skills/websurf/)")
     p.set_defaults(fn=cmd_skill)
+
+    p = sub.add_parser("install-deps", help="download the headless Chromium the "
+                                            "render path needs (one time, ~190 MB)")
+    p.set_defaults(fn=cmd_install_deps)
 
     p = sub.add_parser("status", help="store location, cache and run counts")
     p.set_defaults(fn=cmd_status)

@@ -118,7 +118,17 @@ class Fetcher:
         if getattr(self._tl, "browser", None) is None:
             from playwright.sync_api import sync_playwright
             self._tl.pw = sync_playwright().start()
-            self._tl.browser = self._tl.pw.chromium.launch(headless=True)
+            try:
+                self._tl.browser = self._tl.pw.chromium.launch(headless=True)
+            except Exception as e:
+                # Missing browser build is the common first-run failure — replace
+                # Playwright's "run `playwright install`" (not on PATH for a
+                # pipx/venv install) with the command that actually is.
+                if "Executable doesn't exist" in str(e):
+                    raise RuntimeError(
+                        "Chromium not installed — run `websurf install-deps` "
+                        "to download it (~190 MB, one time)") from None
+                raise
             # Deterministic teardown: without it the interpreter exits while a
             # greenlet still references the driver transport — SIGSEGV in
             # greenlet g_switch during finalization (one macOS CrashReporter

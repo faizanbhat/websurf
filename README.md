@@ -2,6 +2,33 @@
 
 websurf is a command-line web browsing and extraction instrument built to be driven by AI agents such as Claude Code or Gemini CLI. Describe what you want in plain language; the agent composes the tool's operations and brings back the result — a guided walk through a site in the conversation, or a dataset as a file.
 
+## Installation
+
+websurf is a command-line application, so install it with [pipx](https://pipx.pypa.io/), which puts it in its own isolated environment and on your PATH:
+
+```bash
+pipx install websurf
+```
+
+## Optional setup
+
+1. **Chromium**
+
+Install chromium (~190 MB) via playwright. This is needed for sites that require a browser render. If you skip it, websurf tells you to run this command the first time a page needs rendering.
+
+```bash
+websurf install-deps
+```
+
+
+2. **Claude skill**
+
+Install a skill so that Claude can auto-discover websurf.
+
+```bash
+websurf skill --install
+```
+
 ## The two jobs it does
 
 **Exploration** — helping agents answer navigational questions about a site. What sections exist, what a page links to, what a section contains, what a page says. Agents move through the site step by step and the answers land in the chat. Nothing accumulates: pages pass through a self-cleaning cache, and that's all.

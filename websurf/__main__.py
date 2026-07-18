@@ -45,6 +45,8 @@ def build(args, need_llm=False, readonly=False):
             setattr(cfg, attr, getattr(args, flag))
     if getattr(args, "allow_external", False):
         cfg.allow_external = True
+    if getattr(args, "ignore_robots", False):
+        cfg.respect_robots = False
     if getattr(args, "no_render_breaker", False):
         cfg.render_breaker = False
     is_file_db = cfg.db_path != ":memory:"
@@ -306,6 +308,11 @@ def main():
                          "(e.g. --db ./acme.db) — explicit stores are durable and "
                          "never auto-pruned. Global flag — put it before the "
                          "subcommand, and use the SAME path for every step of a job.")
+    ap.add_argument("--ignore-robots", action="store_true", dest="ignore_robots",
+                    help="don't enforce robots.txt (default: honored). For "
+                         "human-directed browsing of a page or two, not bulk "
+                         "crawls. Global flag — put it before the subcommand. "
+                         "Persist with WEBSURF_IGNORE_ROBOTS=1.")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     p = sub.add_parser("run", help="autonomous run: probe -> plan -> execute")

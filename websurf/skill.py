@@ -238,7 +238,9 @@ Cross-domain fetches don't wait on each other — the delay is per domain.
 ## Rules the tool enforces (don't fight them)
 
 - Politeness: 2s/domain by default, robots honored. Tunable per run — see
-  "Pacing (the per-domain delay)".
+  "Pacing (the per-domain delay)". A `robots_disallowed` page can be forced
+  with the global `--ignore-robots` flag (before the subcommand) or
+  `WEBSURF_IGNORE_ROBOTS=1` — for human-directed browsing, not bulk crawls.
 - ToS-hostile aggregators (LinkedIn, Crunchbase, PitchBook & co) are
   denylisted → health `denied`; the outline reports them under `links.denied`,
   never as fetchable groups.

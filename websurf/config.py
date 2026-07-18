@@ -34,7 +34,11 @@ class Config:
     # politeness (per-domain pacing; tunable per run via --min-delay)
     min_delay: float = 2.0
     request_timeout: int = 20
-    respect_robots: bool = True
+    # Honored by default; set WEBSURF_IGNORE_ROBOTS=1 (or pass --ignore-robots)
+    # to bypass. robots.txt is a crawling convention — bypassing suits
+    # human-directed browsing of a page or two, not bulk crawls.
+    respect_robots: bool = field(default_factory=lambda: os.environ.get(
+        "WEBSURF_IGNORE_ROBOTS", "").strip().lower() not in ("1", "true", "yes"))
 
     # fan-out caps (planning currency; engine clamps whatever the plan asks)
     cap_per_group: int = 30          # links fetched per link-group expansion
